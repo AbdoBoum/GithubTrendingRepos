@@ -44,4 +44,11 @@ dependencies {
 
     //Gson
     implementation 'com.google.code.gson:gson:2.8.2'
+
+    //Butter Knife & Lombok
+    implementation 'com.jakewharton:butterknife:7.0.0'
+    annotationProcessor 'com.jakewharton:butterknife:7.0.0'
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+    annotationProcessor "org.projectlombok:lombok:1.16.18"
+
 }
