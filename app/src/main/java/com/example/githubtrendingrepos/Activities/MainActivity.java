@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.githubtrendingrepos.Fragements.SettingsFragmenet;
@@ -15,10 +16,13 @@ import com.example.githubtrendingrepos.R;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
         navigateTo(TrendingFragment.newInstance());
@@ -49,9 +53,11 @@ public class MainActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()) {
                         case R.id.nav_trending:
                             selectedFragmenet = TrendingFragment.newInstance();
+                            toolbar.setTitle("Trending Repos");
                             break;
                         case R.id.nav_settings:
                             selectedFragmenet = SettingsFragmenet.newInstance();
+                            toolbar.setTitle("Settings");
                             break;
                     }
                     navigateTo(selectedFragmenet);
