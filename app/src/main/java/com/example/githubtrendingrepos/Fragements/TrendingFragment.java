@@ -19,6 +19,7 @@ import com.example.githubtrendingrepos.R;
 import com.example.githubtrendingrepos.Retrofit.GithubRepoApi;
 import com.example.githubtrendingrepos.Retrofit.Retrofit2Client;
 import com.google.gson.JsonElement;
+import com.paginate.Paginate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TrendingFragment extends Fragment {
+public class TrendingFragment extends Fragment implements Paginate.Callbacks {
 
     private MainActivity activity;
 
@@ -45,6 +46,8 @@ public class TrendingFragment extends Fragment {
     Toolbar toolbar;
 
     private static final String TAG = "TrendingFragment";
+
+    private boolean loadingInProgress = false;
 
     public static TrendingFragment newInstance() {
         TrendingFragment fragment = new TrendingFragment();
@@ -73,8 +76,7 @@ public class TrendingFragment extends Fragment {
         repoList = new ArrayList<>();
         activity = (MainActivity) getActivity();
         adapter = new GitAdaprter(activity.getApplicationContext(), repoList);
-        RecyclerViewManager.configureRecycleView(activity, mainRecyclerView);
-        mainRecyclerView.setAdapter(adapter);
+        RecyclerViewManager.configureRecycleView(activity, mainRecyclerView, adapter,this);
         getData();
     }
 
@@ -90,11 +92,12 @@ public class TrendingFragment extends Fragment {
                     Utils.makeToast(activity.getApplicationContext(), String.valueOf(response.code()));
                 }
                 try {
+                    loadingInProgress = false;
                     bindData(response.body());
+                    refreshRecyclerView();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                refreshRecyclerView();
             }
 
             @Override
@@ -121,5 +124,22 @@ public class TrendingFragment extends Fragment {
 
     private void refreshRecyclerView() {
         adapter.addAllItems(repoList);
+    }
+
+    @Override
+    public void onLoadMore() {
+        page++;
+        loadingInProgress = true;
+        getData();
+    }
+
+    @Override
+    public boolean isLoading() {
+        return loadingInProgress;
+    }
+
+    @Override
+    public boolean hasLoadedAllItems() {
+        return false;
     }
 }
