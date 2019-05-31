@@ -7,30 +7,22 @@ import static com.example.githubtrendingrepos.Helper.Utils.BASE_URL;
 
 public class Retrofit2Client {
 
-    private static Retrofit2Client instance = null;
-    private Retrofit retrofit;
-
-    private GithubRepoApi exploreService;
-
-    public Retrofit2Client() {
+    private static Retrofit retrofit = null;
 
 
-        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public static GithubRepoApi getService() {
 
-        exploreService = retrofit.create(GithubRepoApi.class);
-    }
+        if (retrofit == null) {
 
-    public static Retrofit2Client getInstance() {
-        if (instance == null) {
-            instance = new Retrofit2Client();
+            retrofit = new Retrofit
+                    .Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
         }
 
-        return instance;
+        return retrofit.create(GithubRepoApi.class);
     }
 
-    public GithubRepoApi getExploreService() {
-        return exploreService;
-    }
+
 }
