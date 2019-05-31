@@ -1,19 +1,26 @@
 package com.example.githubtrendingrepos.Activities;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import com.example.githubtrendingrepos.Fragements.SettingsFragmenet;
 import com.example.githubtrendingrepos.Fragements.TrendingFragment;
 import com.example.githubtrendingrepos.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
         navigateTo(TrendingFragment.newInstance());
     }
 
@@ -33,5 +40,24 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListner =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragmenet = null;
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_trending:
+                            selectedFragmenet = TrendingFragment.newInstance();
+                            break;
+                        case R.id.nav_settings:
+                            selectedFragmenet = SettingsFragmenet.newInstance();
+                            break;
+                    }
+                    navigateTo(selectedFragmenet);
+                    return true;
+                }
+            };
+
 
 }

@@ -38,5 +38,4 @@ public class SettingsFragmenet extends Fragment {
         activity = (MainActivity) getActivity();
     }
 
-
 }
