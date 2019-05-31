@@ -13,6 +13,9 @@
         style="@style/HeaderBar"
         app:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:elevation="4dp"
+        app:title="Trending Repos"
+        app:titleTextColor="@color/secondary"
+        android:textAlignment="center"
         />
     <FrameLayout
         android:id="@+id/frame_layout"

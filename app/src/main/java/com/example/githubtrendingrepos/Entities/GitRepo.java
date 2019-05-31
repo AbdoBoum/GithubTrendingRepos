@@ -12,6 +12,9 @@ public class GitRepo {
 
     private String rating;
 
+    public GitRepo() {
+    }
+
     public GitRepo(String title, String description, String avatarUrl, String username, String rating) {
         this.title = title;
         this.description = description;

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,11 @@ import com.example.githubtrendingrepos.Retrofit.GithubRepoApi;
 import com.example.githubtrendingrepos.Retrofit.Retrofit2Client;
 import com.google.gson.JsonElement;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,6 +42,8 @@ public class TrendingFragment extends Fragment {
 
     int page = 0;
 
+    Toolbar toolbar;
+
     private static final String TAG = "TrendingFragment";
 
     public static TrendingFragment newInstance() {
@@ -49,6 +57,7 @@ public class TrendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.repos_fragmenet, container, false);
+        mainRecyclerView = view.findViewById(R.id.rv_repos);
         return view;
     }
 
@@ -61,6 +70,7 @@ public class TrendingFragment extends Fragment {
     }
 
     private void init() {
+        repoList = new ArrayList<>();
         activity = (MainActivity) getActivity();
         adapter = new GitAdaprter(activity.getApplicationContext(), repoList);
         RecyclerViewManager.configureRecycleView(activity, mainRecyclerView);
@@ -79,6 +89,12 @@ public class TrendingFragment extends Fragment {
                 if(!response.isSuccessful()) {
                     Utils.makeToast(activity.getApplicationContext(), String.valueOf(response.code()));
                 }
+                try {
+                    bindData(response.body());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                refreshRecyclerView();
             }
 
             @Override
@@ -86,6 +102,21 @@ public class TrendingFragment extends Fragment {
                 Utils.makeToast(activity.getApplicationContext(), t.getMessage());
             }
         });
+    }
+
+    private void bindData(JsonElement response) throws JSONException {
+        JSONObject jsonObject = new JSONObject(response.toString());
+        JSONArray items = jsonObject.getJSONArray("items");
+
+        for (int i = 0; i < items.length(); i++) {
+            GitRepo gitRepo = new GitRepo();
+            gitRepo.setTitle(items.getJSONObject(i).getString("name"));
+            gitRepo.setDescription(items.getJSONObject(i).getString("description"));
+            gitRepo.setRating(items.getJSONObject(i).getString("stargazers_count"));
+            gitRepo.setAvatarUrl(items.getJSONObject(i).getJSONObject("owner").getString("avatar_url"));
+            gitRepo.setUsername(items.getJSONObject(i).getJSONObject("owner").getString("login"));
+            repoList.add(gitRepo);
+        }
     }
 
     private void refreshRecyclerView() {
