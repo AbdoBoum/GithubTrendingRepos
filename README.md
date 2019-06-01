@@ -29,4 +29,5 @@ For each repo/row the following details are shown:
 - Glide: https://github.com/bumptech/glide
 - Gson: https://github.com/google/gson
 - Paginate: https://github.com/MarkoMilos/Paginate
+- ButterKnife: https://github.com/JakeWharton/butterknife
 
