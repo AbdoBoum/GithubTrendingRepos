@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +42,6 @@ public class TrendingFragment extends Fragment implements Paginate.Callbacks {
 
     int page = 0;
 
-    Toolbar toolbar;
-
     private static final String TAG = "TrendingFragment";
 
     private boolean loadingInProgress = false;
@@ -76,7 +73,7 @@ public class TrendingFragment extends Fragment implements Paginate.Callbacks {
         repoList = new ArrayList<>();
         activity = (MainActivity) getActivity();
         adapter = new GitAdaprter(activity.getApplicationContext(), repoList);
-        RecyclerViewManager.configureRecycleView(activity, mainRecyclerView, adapter,this);
+        RecyclerViewManager.configureRecycleView(activity, mainRecyclerView, adapter, this);
         getData();
     }
 
@@ -88,7 +85,7 @@ public class TrendingFragment extends Fragment implements Paginate.Callbacks {
         api.getRepos(url).enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                if(!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     Utils.makeToast(activity.getApplicationContext(), String.valueOf(response.code()));
                 }
                 try {

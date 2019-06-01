@@ -15,8 +15,6 @@ public class SettingsFragmenet extends Fragment {
 
     MainActivity activity;
 
-    android.support.v7.widget.Toolbar toolbar;
-
     private static final String TAG = "SettingsFragmenet";
 
     public static SettingsFragmenet newInstance() {

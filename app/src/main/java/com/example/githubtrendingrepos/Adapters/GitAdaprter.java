@@ -51,7 +51,7 @@ public class GitAdaprter extends RecyclerView.Adapter<GitAdaprter.GitViewHolder>
         protected TextView title;
         protected TextView description;
         protected TextView username;
-        protected  TextView rating;
+        protected TextView rating;
         protected ImageView avatar;
 
         public GitViewHolder(@NonNull View itemView) {

@@ -13,17 +13,20 @@ import com.example.githubtrendingrepos.Fragements.SettingsFragmenet;
 import com.example.githubtrendingrepos.Fragements.TrendingFragment;
 import com.example.githubtrendingrepos.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
+    @Bind(R.id.bottom_nav)
     BottomNavigationView bottomNavigationView;
-
+    @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.toolbar);
-        bottomNavigationView = findViewById(R.id.bottom_nav);
+        ButterKnife.bind(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
         navigateTo(TrendingFragment.newInstance());
     }

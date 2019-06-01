@@ -13,10 +13,10 @@ public class RecyclerViewManager {
         recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+
         Paginate.with(recyclerView, callbacks)
                 .setLoadingTriggerThreshold(2)
                 .addLoadingListItem(true)
                 .build();
-
     }
 }
