@@ -27,15 +27,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static butterknife.ButterKnife.bind;
+import static com.example.githubtrendingrepos.Helper.Utils.makeToast;
 
 public class TrendingFragment extends Fragment implements Paginate.Callbacks {
 
     private MainActivity activity;
 
-    private RecyclerView mainRecyclerView;
+    @Bind(R.id.rv_repos)
+    RecyclerView mainRecyclerView;
+
     private GitAdaprter adapter;
 
     List<GitRepo> repoList;
@@ -57,7 +64,7 @@ public class TrendingFragment extends Fragment implements Paginate.Callbacks {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.repos_fragmenet, container, false);
-        mainRecyclerView = view.findViewById(R.id.rv_repos);
+        bind(this, view);
         return view;
     }
 
@@ -86,12 +93,16 @@ public class TrendingFragment extends Fragment implements Paginate.Callbacks {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                 if (!response.isSuccessful()) {
-                    Utils.makeToast(activity.getApplicationContext(), String.valueOf(response.code()));
+                    makeToast(activity.getApplicationContext(), String.valueOf(response.code()));
                 }
                 try {
-                    loadingInProgress = false;
-                    bindData(response.body());
-                    refreshRecyclerView();
+                    if (!response.body().isJsonNull()) {
+                        loadingInProgress = false;
+                        bindData(response.body());
+                        refreshRecyclerView();
+                    } else {
+                        makeToast(activity.getApplicationContext(), "An error occurred while while fetching data");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -99,7 +110,7 @@ public class TrendingFragment extends Fragment implements Paginate.Callbacks {
 
             @Override
             public void onFailure(Call<JsonElement> call, Throwable t) {
-                Utils.makeToast(activity.getApplicationContext(), t.getMessage());
+                makeToast(activity.getApplicationContext(), t.getMessage());
             }
         });
     }
