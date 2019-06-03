@@ -25,5 +25,16 @@ public class Utils {
         return dateFormat.format(currentDate);
     }
 
+    public static String formatStars(int nStars) {
+        if (nStars < 1000) {
+            return String.valueOf(nStars);
+        } else {
+            int r = nStars/1000;
+            int _r = ((nStars%1000))/100;
+            String result = r + "." + _r + "K";
+            return result;
+        }
+    }
+
 
 }

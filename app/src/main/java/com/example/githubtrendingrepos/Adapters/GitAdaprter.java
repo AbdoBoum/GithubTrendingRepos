@@ -1,6 +1,7 @@
 package com.example.githubtrendingrepos.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import com.example.githubtrendingrepos.Entities.GitRepo;
 import com.example.githubtrendingrepos.R;
 
 import java.util.List;
+
+import static com.example.githubtrendingrepos.Helper.Utils.formatStars;
 
 public class GitAdaprter extends RecyclerView.Adapter<GitAdaprter.GitViewHolder> {
 
@@ -39,7 +42,7 @@ public class GitAdaprter extends RecyclerView.Adapter<GitAdaprter.GitViewHolder>
         holder.title.setText(repo.getTitle());
         holder.description.setText(repo.getDescription());
         holder.username.setText(repo.getUsername());
-        holder.rating.setText(repo.getRating());
+        holder.rating.setText(formatStars(Integer.parseInt(repo.getRating())));
         Glide.with(context)
                 .load(repo.getAvatarUrl())
                 .into(holder.avatar);
